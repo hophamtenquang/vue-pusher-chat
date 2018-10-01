@@ -101,6 +101,7 @@ const app = new Vue({
             message_typing = '';
           }
           else {
+            this.have_typing_users = true;
             if(total_users_typing > 1) {
               tobe = ' are ';
             }
@@ -115,14 +116,13 @@ const app = new Vue({
                users = users + value['username'] + ', ';
              }
             };
-             message_typing = users + tobe + ' typing ...';
+             message_typing = users + tobe + ' typing';
           }
           return message_typing;
         },
 
         removeTypingUser(username) {
           for (let [key, value] of Object.entries(this.typing_users)) {
-            console.log(value['username'], this.username);
             if(value['username'] == username || value['username'] == this.username) {
               this.typing_users.splice(key, 1);
             }
