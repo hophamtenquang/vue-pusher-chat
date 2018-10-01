@@ -1,0 +1,19 @@
+{
+  "name": "pusher-group-chat",
+  "version": "1.0.0",
+  "description": "A simple group chat app using Vue.js and Pusher",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Chimezie Enyinnaya",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "dotenv": "^4.0.0",
+    "express": "^4.15.2",
+    "express-session": "^1.15.2",
+    "pusher": "^2.1.3"
+  }
+}
