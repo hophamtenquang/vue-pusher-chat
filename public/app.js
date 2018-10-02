@@ -18,7 +18,17 @@ const app = new Vue({
         have_typing_users: false
     },
 
+    created () {
+      this.fetchData();
+    },
+
     methods: {
+        fetchData() {
+          axios.get('old-messages')
+              .then(response => {
+                  this.messages = response.data;
+              });
+        },
         joinChat() {
             axios.post('join-chat', {username: this.username})
                 .then(response => {
@@ -91,6 +101,7 @@ const app = new Vue({
         },
 
         getTypingUsers() {
+          this.removeTypingUser(this.username);
           let message_typing = '';
           let users = '';
           let total_users_typing = this.typing_users.length;
