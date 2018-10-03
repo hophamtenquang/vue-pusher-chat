@@ -54,7 +54,8 @@ app.post('/pusher/auth', (req, res) => {
 
     // Retrieve username from session and use as presence channel user_id
     const presenceData = {
-        user_id: req.session.username
+        user_id: req.session.username,
+        user_info: req.session.username
     };
 
     const auth = pusher.authenticate(socketId, channel, presenceData);

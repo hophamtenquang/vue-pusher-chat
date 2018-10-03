@@ -11,6 +11,7 @@ const app = new Vue({
         joined: false,
         username: '',
         members: '',
+        mems: [],
         newMessage: '',
         messages: [],
         status: '',
@@ -27,6 +28,9 @@ const app = new Vue({
           axios.get('old-messages')
               .then(response => {
                   this.messages = response.data;
+                  setTimeout(function() {
+                    $('#messages').scrollTop($('#messages')[0].scrollHeight);
+                  }, 100)
               });
         },
         joinChat() {
@@ -34,11 +38,17 @@ const app = new Vue({
                 .then(response => {
                     // User has joined the chat
                     this.joined = true;
-
+                    var mems = [];
                     const channel = pusher.subscribe('presence-groupChat');
-
                     channel.bind('pusher:subscription_succeeded', (members) => {
                         this.members = channel.members;
+                        this.members.each(function(member) {
+                          mems.push({
+                            'userId': member.id,
+                            'userInfo': member.info
+                          })
+                        });
+                        this.mems = mems;
                     });
 
                     // User joins chat
@@ -60,7 +70,11 @@ const app = new Vue({
             // Clear input field
             this.newMessage = '';
 
-            axios.post('/send-message', message);
+            axios.post('/send-message', message).then(response => {
+              setTimeout(function() {
+                $('#messages').scrollTop($('#messages')[0].scrollHeight);
+              }, 100);
+            });
         },
 
         listen() {
@@ -71,6 +85,9 @@ const app = new Vue({
                     username: data.username,
                     message: data.message
                 });
+                setTimeout(function() {
+                  $('#messages').scrollTop($('#messages')[0].scrollHeight);
+                }, 100);
             });
 
             channel.bind('typing', (data) => {
